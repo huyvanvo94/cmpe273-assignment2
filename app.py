@@ -26,7 +26,7 @@ class Entry(Resource):
     def get(self):
 
 
-        return {}
+        return {'test': '123'}, 200
 
 class Test(Resource):
     def get(self):
