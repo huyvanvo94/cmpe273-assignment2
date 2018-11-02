@@ -60,3 +60,4 @@ def sha256(key):
 def md5(key):
     key = key.encode('utf-8')
     return int(hashlib.md5(key).hexdigest(), 16)
+
