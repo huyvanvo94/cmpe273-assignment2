@@ -2,5 +2,5 @@
 
 
 ``` 
-
+Implementation of distrubted hash functions. 
 ```
