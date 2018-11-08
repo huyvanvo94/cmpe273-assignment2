@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e620254b-80db-47bf-bf6e-ba8db6b4c3c6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consistent_hash.py" beforeDir="false" afterPath="$PROJECT_DIR$/consistent_hash.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrw_hash.py" beforeDir="false" afterPath="$PROJECT_DIR$/hrw_hash.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -96,8 +94,8 @@
       <file leaf-file-name="hrw_hash.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hrw_hash.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+            <state relative-caret-position="365">
+              <caret line="37" column="30" selection-start-line="37" selection-start-column="30" selection-end-line="37" selection-end-column="30" />
               <folding>
                 <element signature="e#47#61#0" expanded="true" />
               </folding>
@@ -153,10 +151,10 @@
         <option value="$PROJECT_DIR$/api.py" />
         <option value="$PROJECT_DIR$/servers.py" />
         <option value="$PROJECT_DIR$/app.py" />
-        <option value="$PROJECT_DIR$/hrw_hash.py" />
         <option value="$PROJECT_DIR$/utils.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/consistent_hash.py" />
+        <option value="$PROJECT_DIR$/hrw_hash.py" />
       </list>
     </option>
   </component>
@@ -170,9 +168,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="182" />
+    <option name="x" value="711" />
     <option name="y" value="23" />
-    <option name="width" value="1498" />
+    <option name="width" value="969" />
     <option name="height" value="965" />
   </component>
   <component name="ProjectView">
@@ -348,7 +346,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="182" y="23" width="1498" height="965" extended-state="0" />
+    <frame x="711" y="23" width="969" height="965" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32923076" />
@@ -356,9 +354,9 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32923076" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.328341" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.0" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32949308" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.120192304" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.05645161" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18878101" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -846,8 +844,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hrw_hash.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+        <state relative-caret-position="365">
+          <caret line="37" column="30" selection-start-line="37" selection-start-column="30" selection-end-line="37" selection-end-column="30" />
           <folding>
             <element signature="e#47#61#0" expanded="true" />
           </folding>
