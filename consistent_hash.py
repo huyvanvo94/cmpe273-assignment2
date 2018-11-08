@@ -5,47 +5,111 @@ from csv_paser import  *
 import requests
 from servers import servers
 
-def _repl(name, index):
-    return '%s!%d' % (name, index)
 
+class ConsistentHash(object):
+    def __init__(self, pNodes, vNodeCount, hash, pNodeIsString=True):
+        self.hash = hash
+        self.ring = dict()
 
-class ConsistentHashing(object):
+        if pNodeIsString:
+            for pNode in pNodes:
+                self.addNode(Node(pNode), vNodeCount)
+        else:
+            for pNode in pNodes:
+                self.addNode(pNode, vNodeCount)
 
-    def __init__(self, ips=[], replicas=200, hash=md5):
-        self._ips = {}
-        self._hashed_ips = []
-        self.replicas = replicas
-        self._hash = hash
+    def addNode(self, pNode, vNodeCount):
 
-        for ip in ips:
-            self.add(ip)
+        existingReplicas = self.getExistingReplicas(pNode)
+
+        for i in range(vNodeCount):
+            vNode = VirtualNode(pNode, i + existingReplicas)
+
+            self.ring[self.hash(vNode.getKey())] = vNode
+
+    def removeNode(self, pNode):
+
+        for key in self.ring.keys():
+            virtualNode = self.ring.get(key)
+
+            if virtualNode.isVirtualNodeOf(pNode):
+                del self.ring[key]
+
+    def routeNode(self, objectKey):
+
+        if len(self.ring) == 0:
+            return None
+        mkeys = sorted(list(self.ring.keys()))
+        hashVal = self.hash(objectKey)
+
+        pos = self._find(mkeys, hashVal)
+
+        if pos == len(mkeys):
+            return self.ring[mkeys[0]]
+        else:
+            return self.ring[mkeys[pos]]
+
+    def select(self, objectKey):
+        return self.routeNode(objectKey).getPhysicalNode().getKey()
+
+    def getExistingReplicas(self, pNode):
+        replicas = 0
+
+        for vNode in self.ring.values():
+            if vNode.isVirtualNodeOf(pNode):
+                replicas = replicas + 1
+
+        return replicas
+
+    def _find(self, lst, x):
+        lo = 0
+        hi = len(lst)
+
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if lst[mid] < x:
+                lo = mid + 1
+
+            else:
+                hi = mid
+
+        return lo
+
+class Node(object):
+    def __init__(self, object):
+        self.object = object
 
     def __str__(self):
-        return '<ConsistentHashing with %s hash>' % self._hash
+        return str(self.object)
 
-    def add(self, ip):
+    def __repr__(self):
+        return self.__str__()
 
-        for i in range(self.replicas):
-            sip = _repl(ip, i)
-            hashed = self._hash(sip)
-            self._ips[hashed] = sip
-            bisect.insort(self._hashed_ips, hashed)
+    def getKey(self):
+        return self.object
 
-    def remove(self, ip):
-        for i in range(self.replicas):
-            sip = _repl(ip, i)
-            hashed = self._hash(sip)
-            del self._ips[hashed]
-            index = bisect.bisect_left(self._hashed_ips, hashed)
-            del self._hashed_ips[index]
+class VirtualNode(object):
 
-    def select(self, username):
-        hashed = self._hash(username)
-        start = bisect.bisect(self._hashed_ips, hashed,
-                              hi=len(self._hashed_ips)-1)
-        return self._ips[self._hashed_ips[start]].split('!')[0]
+    def __init__(self, physicalNode, replicaIndex):
+        self.physicalNode = physicalNode
+        self.replicaIndex = replicaIndex
 
-cHash = ConsistentHashing(ips=servers)
+    def isVirtualNodeOf(self, pNode):
+        return self.physicalNode.getKey() == pNode.getKey()
+
+    def getKey(self):
+        return "{}-{}".format(self.physicalNode.getKey(), self.replicaIndex)
+
+    def __str__(self):
+        return self.getKey()
+
+    def __repr__(self):
+        return self.__str__()
+
+    def getPhysicalNode(self):
+        return self.physicalNode
+
+cHash = ConsistentHash(pNodes=servers, vNodeCount=10, hash=md5, pNodeIsString=True )
 
 def main(filename):
 
@@ -65,6 +129,7 @@ def main(filename):
           #  url = 'http://localhost:5000' + '/api/v1/entries'
             url = server + '/api/v1/entries'
             print('to {}'.format(url))
+
             requests.post(url=url, data=json)
         except:
             print('something went wrong')

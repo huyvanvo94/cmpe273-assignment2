@@ -5,6 +5,9 @@ import binascii
 import time
 from functools import wraps
 
+
+DEBUG = True
+
 class CollisionError(Exception):
     pass
 
