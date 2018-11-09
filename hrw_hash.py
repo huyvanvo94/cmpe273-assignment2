@@ -10,7 +10,7 @@ from functools import wraps
 from utils import *
 import requests
 from csv_paser import *
-
+import sys
 from servers import *
 
 class RendezVousHash(object):
@@ -101,6 +101,7 @@ class TRendezVous(object):
 
 rHash = RendezVousHash(nodes=servers)
 t = TRendezVous(ips=servers)
+
 def main(filename):
 
     csv_reader = read_csv(filename)
@@ -118,18 +119,16 @@ def main(filename):
 
           #  url = 'http://localhost:5000' + '/api/v1/entries'
             url = server + '/api/v1/entries'
-            print('to {}'.format(url))
-            requests.post(url="http://localhost:5000/api/v1/entries", data=json)
+
+            requests.post(url=url, data=json)
         except:
             print('something went wrong')
             pass
 
 if __name__== '__main__':
-    s = "sdsg"
+    filename = 'causes-of-death.csv'
 
-    print(t.select(s) == rHash.select(s))
+    if len(sys.argv) > 1:
+        filename = str(sys.argv[1])
 
-
- #   filename = 'causes-of-death.csv'
-   # main(filename)
-  #  requests.post(url="http://localhost:5000/api/v1/entries", data={'xxxx': 'tester'})
+    main(filename)

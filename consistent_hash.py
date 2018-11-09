@@ -143,6 +143,9 @@ if __name__== '__main__':
 
     filename = 'causes-of-death.csv'
 
+    if len(sys.argv) > 1:
+        filename = str(sys.argv[1])
+
     main(filename)
 
 
