@@ -100,7 +100,7 @@ class TRendezVous(object):
 
 
 rHash = RendezVousHash(nodes=servers)
-t = TRendezVous(ips=servers)
+
 
 def main(filename):
 
@@ -111,16 +111,10 @@ def main(filename):
             xxxx = pretty_csv_row(csv_reader, row)
 
             server = rHash.getNode(xxxx)
-            json = {
-                "xxxx": xxxx
-            }
-            params = {'format': 'json', "Content-Type": "application/json"}
-          #  print('post server {} with json {}'.format(server, json))
 
-          #  url = 'http://localhost:5000' + '/api/v1/entries'
             url = server + '/api/v1/entries'
 
-            requests.post(url=url, data=json)
+            requests.post(url=url, data={"xxxx": xxxx})
         except:
             print('something went wrong')
             pass
@@ -130,5 +124,9 @@ if __name__== '__main__':
 
     if len(sys.argv) > 1:
         filename = str(sys.argv[1])
+
+    row_count = sum(1 for row in read_csv(filename))
+    print("Uploaded all {} entries.".format(row_count))
+    print("Verifying the data.")
 
     main(filename)

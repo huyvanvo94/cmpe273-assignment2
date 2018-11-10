@@ -48,12 +48,11 @@ class Entry(Resource):
 
 
 
-
         return content, 200
 
 class Test(Resource):
     def get(self):
-        print('test')
+        return "Hello World"
 """
 
 curl http://localhost:5000/api/v1/entries -X POST -d '{"xxxx":"2016,All Causes,All causes,Alabama,52466,920.40 "}' -H "Content-Type: application/json"

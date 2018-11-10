@@ -123,12 +123,10 @@ def main(filename):
             json = {
                 "xxxx": xxxx
             }
-            params = {'format': 'json', "Content-Type": "application/json"}
-          #  print('post server {} with json {}'.format(server, json))
 
-          #  url = 'http://localhost:5000' + '/api/v1/entries'
             url = server + '/api/v1/entries'
-            print('to {}'.format(url))
+
+        #    print(url)
 
             requests.post(url=url, data=json)
         except:
@@ -145,6 +143,12 @@ if __name__== '__main__':
 
     if len(sys.argv) > 1:
         filename = str(sys.argv[1])
+
+    row_count = sum(1 for row in read_csv(filename))
+
+    print("Uploaded all {} entries.".format(row_count))
+
+    print("Verifying the data.")
 
     main(filename)
 
