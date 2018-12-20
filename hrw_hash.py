@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import hashlib
-import bisect
-from collections import defaultdict
-import binascii
-import time
-from functools import wraps
 from utils import *
 import requests
 from csv_paser import *
 import sys
 from servers import *
 
+# rendezvous hash algorithm
 class RendezVousHash(object):
 
     def __init__(self, nodes=None, hashFunction=md5):
@@ -69,39 +64,11 @@ class RendezVousHash(object):
     def add(self, node):
         self.nodes.append(node)
 
-class TRendezVous(object):
-
-    def __init__(self, ips=None, hash=md5):
-        if ips is None:
-            ips = []
-        self.ips = ips
-        self._hash = hash
-
-    def __str__(self):
-        return '<RendezVous with %s hash>' % self._hash
-
-    def add(self, ip):
-        self.ips.append(ip)
-
-    def remove(self, ip):
-        self.ips.remove(ip)
-
-    def select(self, key):
-        high_score = -1
-        winner = None
-        for ip in self.ips:
-            score = self._hash("%s-%s" % (str(ip), str(key)))
-            if score > high_score:
-                high_score, winner = score, ip
-
-            elif score == high_score:
-                high_score, winner = score, max(str(ip), str(winner))
-        return winner
-
+# end rendezvous hash algorithm
 
 rHash = RendezVousHash(nodes=servers)
 
-
+# function to read csv and do work
 def main(filename):
 
     csv_reader = read_csv(filename)
@@ -113,14 +80,28 @@ def main(filename):
             server = rHash.getNode(xxxx)
 
             url = server + '/api/v1/entries'
-
-            requests.post(url=url, data={"xxxx": xxxx})
+            try:
+                requests.post(url=url, data={"xxxx": xxxx})
+            except: pass
         except:
             print('something went wrong')
             pass
 
+    # save output to txt file
+    # clear txt file
+    open('hrw_hash_output.txt', 'w').close()
+
+    row_count = sum(1 for row in read_csv(filename))
+    with open('hrw_hash_output.txt', 'a') as f:
+        f.write("Uploaded all {} entries.".format(row_count) + '\n')
+        f.write("Verifying the data.\n")
+    log_hrw_hash()
+
+
+
+
 if __name__== '__main__':
-    filename = 'causes-of-death.csv'
+    filename = 'consis'
 
     if len(sys.argv) > 1:
         filename = str(sys.argv[1])

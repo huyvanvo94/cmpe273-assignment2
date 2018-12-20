@@ -1,11 +1,11 @@
 import sys
-import csv
+
 from utils import *
-from csv_paser import  *
+from csv_paser import *
 import requests
 from servers import servers
 
-
+# ConsistentHash algorithm
 class ConsistentHash(object):
     def __init__(self, pNodes, vNodeCount, hash, pNodeIsString=True):
         self.hash = hash
@@ -109,8 +109,15 @@ class VirtualNode(object):
     def getPhysicalNode(self):
         return self.physicalNode
 
+
+# end ConsistentHash algorithm
+
+# ConsistentHash instance
+
 cHash = ConsistentHash(pNodes=servers, vNodeCount=10, hash=md5, pNodeIsString=True )
 
+
+# function to read csv and do work
 def main(filename):
 
     csv_reader = read_csv(filename)
@@ -120,24 +127,32 @@ def main(filename):
             xxxx = pretty_csv_row(csv_reader, row)
 
             server = cHash.select(xxxx)
-            json = {
+            data = {
                 "xxxx": xxxx
             }
 
             url = server + '/api/v1/entries'
-
-        #    print(url)
-
-            requests.post(url=url, data=json)
+            requests.post(url=url, data=data)
         except:
             print('something went wrong')
-            pass
 
 
+    # save output to txt file
+    # log to file
+    open('consistent_hash_output.txt', 'w').close()
+
+    row_count = sum(1 for row in read_csv(filename))
+    with open('consistent_hash_output.txt', 'a') as f:
+        f.write("Uploaded all {} entries.".format(row_count) + '\n')
+        f.write("Verifying the data.\n")
+
+
+    log_consistent_hash()
 
 
 if __name__== '__main__':
 
+    # input
 
     filename = 'causes-of-death.csv'
 
@@ -146,6 +161,7 @@ if __name__== '__main__':
 
     row_count = sum(1 for row in read_csv(filename))
 
+    # log to console
     print("Uploaded all {} entries.".format(row_count))
 
     print("Verifying the data.")
